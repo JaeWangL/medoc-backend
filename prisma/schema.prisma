@@ -1,0 +1,25 @@
+datasource db {
+  provider = "sqlserver"
+  url = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["microsoftSqlServer"]
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+model Users {
+  Id         Int      @id @default(autoincrement())
+  CreatedAt  DateTime @default(now()) @db.DateTimeOffset
+  UpdatedAt  DateTime @updatedAt @db.DateTimeOffset
+  Email      String   @unique @db.NVarChar(255)
+  Password   String   @db.NVarChar(255)
+  UserName   String   @db.NVarChar(255)
+  Role       Int      @db.TinyInt @default(0)
+  IsSignedIn Boolean  @db.Bit @default(false)
+}

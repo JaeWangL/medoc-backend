@@ -1,0 +1,14 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Users {
+  Id Int [pk, increment]
+  CreatedAt DateTime [default: `now()`, not null]
+  UpdatedAt DateTime [not null]
+  Email String [unique, not null]
+  Password String [not null]
+  UserName String [not null]
+  Role Int [not null, default: 0]
+  IsSignedIn Boolean [not null, default: false]
+}
