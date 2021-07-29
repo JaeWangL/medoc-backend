@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { DateScalar } from '@common/scalars';
 import { config, GraphqlConfig } from '@configs/index';
 import { SharedModule } from '@shared/shared.module';
+import { apolloServerSentryPlugin } from '../../sentry.plugin';
 import { IdentityModule } from '../identity/identity.module';
 import { AppController } from './controllers';
 import { AppResolver } from './resolvers';
@@ -29,6 +30,7 @@ import { AppService } from './services';
           autoSchemaFile: graphqlConfig!.schemaDestination,
           debug: graphqlConfig!.debug,
           playground: graphqlConfig!.playgroundEnabled,
+          plugins: [apolloServerSentryPlugin],
           context: ({ req }) => ({ req }),
         };
       },

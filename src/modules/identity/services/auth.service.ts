@@ -3,6 +3,7 @@ import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/c
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { SecurityConfig } from '@configs/index';
+import { RolesEnum } from '@infrastructure/decorators';
 import { AuthTokensDto, AuthUserDto } from '../dtos';
 import { DecodedUser, JwtStrategyValidate } from '../strategies';
 import { TokenService } from './token.service';
@@ -24,7 +25,7 @@ export class AuthService {
       throw new UnauthorizedException('AuthService.signInAsync: Password is invalid');
     }
 
-    const tokens = await this.generateTokens(user.Id, user.Email);
+    const tokens = await this.generateTokens(user.Id, user.Email, user.Role);
 
     return {
       id: user.Id,
@@ -58,14 +59,15 @@ export class AuthService {
       throw new UnauthorizedException('AuthService.refreshTokenAsync: credentials were missing or incorrect');
     }
 
-    return this.generateTokens(decodedUser.id, decodedUser.email);
+    return this.generateTokens(decodedUser.id, decodedUser.email, decodedUser.role);
   }
 
-  private async generateTokens(id: number, email: string): Promise<AuthTokensDto> {
+  private async generateTokens(id: number, email: string, role: number): Promise<AuthTokensDto> {
     const securityConfig = this.configSvc.get<SecurityConfig>('security');
     const payload: JwtStrategyValidate = {
       id,
       email,
+      role,
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
@@ -77,7 +79,7 @@ export class AuthService {
       secret: securityConfig!.refreshTokenSecret,
     });
 
-    await this.tokenSvc.createAsync(email, refreshToken);
+    await this.tokenSvc.upsertByEmailAsync(email, refreshToken);
 
     return { accessToken, refreshToken };
   }

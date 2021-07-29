@@ -9,8 +9,6 @@ export class GqlAccessGuard extends AuthGuard('accessToken') {
     const ctx = GqlExecutionContext.create(context);
     const { req } = ctx.getContext();
 
-    console.log(req);
-    console.log(req.user);
-    return Boolean(req.user && Object.values(RolesEnum).includes(req.user.role));
+    return Boolean(req.user && req.user.role === RolesEnum.Admin);
   }
 }

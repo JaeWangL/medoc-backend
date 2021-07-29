@@ -20,6 +20,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refreshToken
     return {
       id: payload.Id,
       email: payload.Email,
+      role: payload.Role,
     };
   }
 }

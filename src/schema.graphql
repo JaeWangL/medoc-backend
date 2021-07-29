@@ -49,6 +49,12 @@ input RefreshTokenInput {
   refreshToken: String!
 }
 
+enum Roles {
+  Admin
+  Manager
+  User
+}
+
 input SignInInput {
   email: String!
   password: String!
@@ -65,6 +71,7 @@ type UserDetailDto {
   createdAt: DateTime!
   email: String!
   id: ID!
+  role: Roles!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!

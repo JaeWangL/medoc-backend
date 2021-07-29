@@ -38,4 +38,21 @@ export class TokenService {
 
     return token;
   }
+
+  async upsertByEmailAsync(email: string, refreshToken: string): Promise<Tokens> {
+    const updated = await this.prismaSvc.tokens.upsert({
+      where: {
+        Email: email,
+      },
+      update: {
+        Token: refreshToken,
+      },
+      create: {
+        Email: email,
+        Token: refreshToken,
+      },
+    });
+
+    return updated;
+  }
 }
