@@ -1,11 +1,13 @@
-import * as Sentry from '@sentry/node';
+import { ApolloServerPlugin, GraphQLRequestContext, GraphQLRequestListener } from 'apollo-server-plugin-base';
 import { get } from 'lodash';
+import { Plugin } from '@nestjs/graphql';
+import * as Sentry from '@sentry/node';
 
-export const apolloServerSentryPlugin = {
-  // For plugin definition see the docs: https://www.apollographql.com/docs/apollo-server/integrations/plugins/
-  requestDidStart(): any {
+@Plugin()
+export class SentryPlugin implements ApolloServerPlugin {
+  async requestDidStart(): Promise<GraphQLRequestListener> {
     return {
-      didEncounterErrors(rc: any) {
+      async didEncounterErrors(rc: GraphQLRequestContext): Promise<void> {
         Sentry.withScope((scope) => {
           scope.addEventProcessor((event) => Sentry.Handlers.parseRequest(event, (rc.context as any).req));
 
@@ -22,7 +24,7 @@ export const apolloServerSentryPlugin = {
             get(rc, 'operationName', get(rc, 'request.operationName')),
           );
 
-          rc.errors.forEach((error: any) => {
+          rc.errors?.forEach((error: any) => {
             if (error.name === 'PersistedQueryNotFoundError') {
               return;
             }
@@ -37,5 +39,5 @@ export const apolloServerSentryPlugin = {
         });
       },
     };
-  },
-};
+  }
+}

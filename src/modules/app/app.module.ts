@@ -1,3 +1,4 @@
+import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
@@ -5,8 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { DateScalar } from '@common/scalars';
 import { config, GraphqlConfig } from '@configs/index';
+import { MaxComplexityPlugin, SentryPlugin } from '@infrastructure/plugins';
 import { SharedModule } from '@shared/shared.module';
-import { apolloServerSentryPlugin } from '../../sentry.plugin';
 import { IdentityModule } from '../identity/identity.module';
 import { AppController } from './controllers';
 import { AppResolver } from './resolvers';
@@ -30,7 +31,7 @@ import { AppService } from './services';
           autoSchemaFile: graphqlConfig!.schemaDestination,
           debug: graphqlConfig!.debug,
           playground: graphqlConfig!.playgroundEnabled,
-          plugins: [apolloServerSentryPlugin],
+          plugins: [responseCachePlugin()],
           context: ({ req }) => ({ req }),
         };
       },
@@ -40,6 +41,6 @@ import { AppService } from './services';
     IdentityModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver /* , DateScalar */],
+  providers: [AppService, AppResolver, MaxComplexityPlugin, SentryPlugin /* , DateScalar */],
 })
 export class AppModule {}
