@@ -31,3 +31,25 @@ model Tokens {
   Email      String   @unique @db.NVarChar(255)
   Token      String   @db.NVarChar(500)
 }
+
+model Doctors {
+  Id         Int      @id @default(autoincrement())
+  CreatedAt  DateTime @default(now()) @db.DateTimeOffset
+  UpdatedAt  DateTime @updatedAt @db.DateTimeOffset
+  UserId     Int
+  Name       String   @db.NVarChar(50)
+  ProfileUrl String   @db.NVarChar(MAX)
+  Rating     Decimal  @db.Decimal(3, 2) @default(0)
+}
+
+model Reviews {
+  Id         Int      @id @default(autoincrement())
+  CreatedAt  DateTime @default(now()) @db.DateTimeOffset
+  UpdatedAt  DateTime @updatedAt @db.DateTimeOffset
+  DoctorId   Int
+  UserId     Int
+  Name       String   @db.NVarChar(50)
+  ProfileUrl String   @db.NVarChar(MAX)
+  Rating     Int      @db.TinyInt
+  Message    String   @db.NVarChar(MAX)
+}

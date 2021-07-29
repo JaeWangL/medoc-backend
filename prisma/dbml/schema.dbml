@@ -20,3 +20,12 @@ Table Tokens {
   Email String [unique, not null]
   Token String [not null]
 }
+
+Table Doctors {
+  Id Int [pk, increment]
+  CreatedAt DateTime [default: `now()`, not null]
+  UpdatedAt DateTime [not null]
+  UserId Int [not null]
+  Name String [not null]
+  ProfileUrl String [not null]
+}

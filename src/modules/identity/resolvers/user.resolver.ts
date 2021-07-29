@@ -1,7 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { GqlAccessGuard } from '@infrastructure/guards';
-import { GetUserArgs } from '../args';
 import { UserDetailDto } from '../dtos';
 import { toUserDetailDTO } from '../extensions';
 import { UserService } from '../services';
