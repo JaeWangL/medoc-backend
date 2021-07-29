@@ -7,7 +7,7 @@ import { toUserDetailDTO } from '../extensions';
 import { UserService } from '../services';
 
 @Resolver((of: any) => 'User')
-// @UseGuards(GqlAccessGuard)
+@UseGuards(GqlAccessGuard)
 export class UserResolver {
   constructor(private userSvc: UserService) {}
 

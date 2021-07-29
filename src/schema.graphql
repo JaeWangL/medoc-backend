@@ -2,12 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthUserDto {
+  """JWT access token"""
+  accessToken: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+
+  """JWT refresh token"""
+  refreshToken: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userName: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
 type Mutation {
+  signIn(data: SignInInput!): AuthUserDto!
   signUp(data: SignUpInput!): Boolean!
 }
 
@@ -15,6 +33,11 @@ type Query {
   findUser(id: Int!): UserDetailDto!
   hello(name: String!): String!
   helloWorld: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
 }
 
 input SignUpInput {

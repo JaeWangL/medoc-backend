@@ -13,7 +13,9 @@ import { AppModule } from '@modules/app/app.module';
  * You can change entryFile in `nest-cli.json`
  */
 async function bootstrap() {
-  const fAdapt = new FastifyAdapter();
+  const fAdapt = new FastifyAdapter({
+    logger: false,
+  });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
   app.useGlobalPipes(new ValidationPipe());
 

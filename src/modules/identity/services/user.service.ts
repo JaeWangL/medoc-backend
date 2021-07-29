@@ -47,4 +47,15 @@ export class UserService {
 
     return user;
   }
+
+  async findByEmailAsync(email: string): Promise<Users> {
+    const user = await this.prismaSvc.users.findUnique({
+      where: { Email: email },
+    });
+    if (!user) {
+      throw new NotFoundException(`UserService.findByEmailAsync: Not Found Email - ${email}`);
+    }
+
+    return user;
+  }
 }

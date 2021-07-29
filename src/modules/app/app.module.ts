@@ -24,7 +24,6 @@ import { AppService } from './services';
           autoSchemaFile: graphqlConfig!.schemaDestination,
           debug: graphqlConfig!.debug,
           playground: graphqlConfig!.playgroundEnabled,
-          path: '/playground',
           context: ({ req }) => ({ req }),
         };
       },
