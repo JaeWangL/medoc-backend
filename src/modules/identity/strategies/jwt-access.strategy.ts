@@ -7,7 +7,7 @@ import { SecurityConfig } from '@configs/index';
 import { JwtStrategyValidate } from './jwt-strategy-validate.interface';
 
 @Injectable()
-export default class JwtAccessStrategy extends PassportStrategy(Strategy, 'accessToken') {
+export class JwtAccessStrategy extends PassportStrategy(Strategy, 'accessToken') {
   constructor(readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

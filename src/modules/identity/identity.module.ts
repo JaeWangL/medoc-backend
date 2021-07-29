@@ -5,8 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { SecurityConfig } from '@configs/index';
 import { AuthResolver, UserResolver } from './resolvers';
 import { AuthService, UserService } from './services';
-import JwtAccessStrategy from './strategies/jwt-access.strategy';
-import JwtRefreshStrategy from './strategies/jwt-refresh.strategy';
+import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
 
 const AllResolvers = [AuthResolver, UserResolver];
 const AllServices = [AuthService, UserService];

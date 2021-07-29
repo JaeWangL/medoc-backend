@@ -4,12 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { SecurityConfig } from '@configs/index';
 import { AuthUserDto } from '../dtos';
+import { DecodedUser, JwtStrategyValidate } from '../strategies';
 import { UserService } from './user.service';
-
-export interface SignInPayload {
-  readonly id: number;
-  readonly email: string;
-}
 
 @Injectable()
 export class AuthService {
@@ -27,7 +23,7 @@ export class AuthService {
       throw new UnauthorizedException('AuthService.signInAsync: Password is invalid');
     }
 
-    const payload: SignInPayload = {
+    const payload: JwtStrategyValidate = {
       id: user.Id,
       email: user.Email,
     };
@@ -50,5 +46,15 @@ export class AuthService {
       accessToken,
       refreshToken,
     } as AuthUserDto;
+  }
+
+  async verifyTokenAsync(token: string, secret: string): Promise<DecodedUser | null> {
+    try {
+      const user = await this.jwtService.verifyAsync(token, { secret });
+
+      return user;
+    } catch (error) {
+      return null;
+    }
   }
 }
