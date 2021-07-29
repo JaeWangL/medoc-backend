@@ -2,7 +2,6 @@ import FastifyCompress from 'fastify-compress';
 import FastifyHelmet from 'fastify-helmet';
 import FastifyMultipart from 'fastify-multipart';
 import FastifyRateLimiter from 'fastify-rate-limit';
-import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -38,10 +37,6 @@ async function bootstrap() {
     },
   });
   fAdapt.register(FastifyMultipart);
-  fAdapt.useStaticAssets({
-    root: join(__dirname, '..', 'client'),
-    prefix: '/public/',
-  });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
