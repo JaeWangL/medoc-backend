@@ -1,3 +1,8 @@
+import FastifyCompress from 'fastify-compress';
+import FastifyHelmet from 'fastify-helmet';
+import FastifyMultipart from 'fastify-multipart';
+import FastifyRateLimiter from 'fastify-rate-limit';
+import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -15,6 +20,26 @@ import { AppModule } from '@modules/app/app.module';
 async function bootstrap() {
   const fAdapt = new FastifyAdapter({
     logger: false,
+  });
+  fAdapt.register(FastifyCompress);
+  fAdapt.register(FastifyRateLimiter, {
+    max: 100, // limit each IP to 100 requests per windowMs
+    timeWindow: 2 * 60 * 1000, // 2 minutes
+  });
+  fAdapt.register(FastifyHelmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [`'self'`],
+        styleSrc: [`'self'`, `'unsafe-inline'`],
+        imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+      },
+    },
+  });
+  fAdapt.register(FastifyMultipart);
+  fAdapt.useStaticAssets({
+    root: join(__dirname, '..', 'client'),
+    prefix: '/public/',
   });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
   app.useGlobalPipes(new ValidationPipe());
