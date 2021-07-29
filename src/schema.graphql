@@ -27,12 +27,32 @@ type AuthUserDto {
   userName: String!
 }
 
+input CreateDoctorInput {
+  name: String!
+  profileUrl: String!
+  userId: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
+type DoctorDetailDto {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  profileUrl: String!
+  rating: Int!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
 type Mutation {
+  createDoctor(data: CreateDoctorInput!): DoctorDetailDto!
   refreshToken(data: RefreshTokenInput!): AuthTokensDto!
   signIn(data: SignInInput!): AuthUserDto!
   signUp(data: SignUpInput!): Boolean!

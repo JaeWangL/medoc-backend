@@ -28,4 +28,17 @@ Table Doctors {
   UserId Int [not null]
   Name String [not null]
   ProfileUrl String [not null]
+  Rating Decimal [not null, default: 0]
+}
+
+Table Reviews {
+  Id Int [pk, increment]
+  CreatedAt DateTime [default: `now()`, not null]
+  UpdatedAt DateTime [not null]
+  DoctorId Int [not null]
+  UserId Int [not null]
+  Name String [not null]
+  ProfileUrl String [not null]
+  Rating Int [not null]
+  Message String [not null]
 }
