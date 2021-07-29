@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Users } from '@prisma/client';
 import { SecurityConfig } from '@configs/index';
-import { JwtStrategyValidate } from './jwt-strategy-validate.interface';
+import { JwtStrategyValidate } from '@infrastructure/interfaces';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refreshToken') {

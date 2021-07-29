@@ -3,9 +3,8 @@ import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/c
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { SecurityConfig } from '@configs/index';
-import { RolesEnum } from '@infrastructure/decorators';
+import { DecodedUser, JwtStrategyValidate } from '@infrastructure/interfaces';
 import { AuthTokensDto, AuthUserDto } from '../dtos';
-import { DecodedUser, JwtStrategyValidate } from '../strategies';
 import { TokenService } from './token.service';
 import { UserService } from './user.service';
 
