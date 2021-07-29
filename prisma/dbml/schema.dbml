@@ -12,3 +12,11 @@ Table Users {
   Role Int [not null, default: 0]
   IsSignedIn Boolean [not null, default: false]
 }
+
+Table Tokens {
+  Id Int [pk, increment]
+  CreatedAt DateTime [default: `now()`, not null]
+  UpdatedAt DateTime [not null]
+  Email String [unique, not null]
+  Token String [not null]
+}

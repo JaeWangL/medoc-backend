@@ -23,3 +23,11 @@ model Users {
   Role       Int      @db.TinyInt @default(0)
   IsSignedIn Boolean  @db.Bit @default(false)
 }
+
+model Tokens {
+  Id         Int      @id @default(autoincrement())
+  CreatedAt  DateTime @default(now()) @db.DateTimeOffset
+  UpdatedAt  DateTime @updatedAt @db.DateTimeOffset
+  Email      String   @unique @db.NVarChar(255)
+  Token      String   @db.NVarChar(500)
+}

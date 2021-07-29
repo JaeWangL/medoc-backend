@@ -32,6 +32,13 @@ export class SignUpInput {
   userName: string;
 }
 
+@InputType()
+export class RefreshTokenInput {
+  @Field({ description: 'JWT refresh token' })
+  @IsNotEmpty()
+  refreshToken: string;
+}
+
 @ObjectType()
 export class AuthUserDto extends BaseModel {
   @Field()
@@ -45,8 +52,21 @@ export class AuthUserDto extends BaseModel {
   userName: string;
 
   @Field({ description: 'JWT access token' })
+  @IsNotEmpty()
   accessToken: string;
 
   @Field({ description: 'JWT refresh token' })
+  @IsNotEmpty()
+  refreshToken: string;
+}
+
+@ObjectType()
+export class AuthTokensDto {
+  @Field({ description: 'JWT access token' })
+  @IsNotEmpty()
+  accessToken: string;
+
+  @Field({ description: 'JWT refresh token' })
+  @IsNotEmpty()
   refreshToken: string;
 }

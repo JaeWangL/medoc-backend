@@ -4,11 +4,11 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { SecurityConfig } from '@configs/index';
 import { AuthResolver, UserResolver } from './resolvers';
-import { AuthService, UserService } from './services';
+import { AuthService, TokenService, UserService } from './services';
 import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
 
 const AllResolvers = [AuthResolver, UserResolver];
-const AllServices = [AuthService, UserService];
+const AllServices = [AuthService, TokenService, UserService];
 
 @Module({
   imports: [
