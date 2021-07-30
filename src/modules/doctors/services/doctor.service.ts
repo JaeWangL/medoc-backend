@@ -23,13 +23,13 @@ export class DoctorService {
     }
   }
 
-  async findByRatingAsync(): Promise<Doctors[]> {
+  async findByRatingAsync(skip = 0, take = 10): Promise<Doctors[]> {
     const doctors = await this.prismaSvc.doctors.findMany({
       orderBy: {
         Rating: 'asc',
       },
-      skip: 3,
-      take: 4,
+      skip,
+      take,
     });
 
     return doctors;
