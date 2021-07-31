@@ -51,6 +51,10 @@ type DoctorDetailDto {
   userId: Int!
 }
 
+input FindUserInput {
+  id: Int!
+}
+
 type Mutation {
   createDoctor(data: CreateDoctorInput!): DoctorDetailDto!
   refreshToken(data: RefreshTokenInput!): AuthTokensDto!
@@ -59,7 +63,7 @@ type Mutation {
 }
 
 type Query {
-  findUser(id: Int!): UserDetailDto!
+  findUser(args: FindUserInput!): UserDetailDto!
   hello(name: String!): String!
   helloWorld: String!
 }
