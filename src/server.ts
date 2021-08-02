@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import * as Sentry from '@sentry/node';
 import { NestConfig } from '@configs/index';
+import { LoggingInterceptor } from '@infrastructure/interceptors';
 import { AppModule } from '@modules/app/app.module';
 
 Sentry.init({
@@ -43,6 +44,7 @@ async function bootstrap() {
   });
   fAdapt.register(FastifyMultipart);
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
 
   const configService = app.get(ConfigService);
