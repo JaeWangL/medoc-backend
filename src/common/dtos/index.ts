@@ -1,3 +1,4 @@
 export * from './base.dtos';
 export * from './pagination.args';
-export * from './pagination.dtos';
+export * from './pagination-cursor.dtos';
+export * from './pagination-offset.dtos';

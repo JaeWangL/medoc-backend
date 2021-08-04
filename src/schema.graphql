@@ -51,6 +51,12 @@ type DoctorDetailDto {
   userId: Int!
 }
 
+type DoctorPreviewCursorPage {
+  edges: [DoctorPreviewDtoEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type DoctorPreviewDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
@@ -62,6 +68,11 @@ type DoctorPreviewDto {
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
   userId: Int!
+}
+
+type DoctorPreviewDtoEdge {
+  cursor: String!
+  node: DoctorPreviewDto!
 }
 
 type DoctorPreviewOffsetPage {
@@ -82,7 +93,15 @@ type Mutation {
   signUp(data: SignUpInput!): Boolean!
 }
 
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
 type Query {
+  findDoctorsCursor(after: String, before: String, first: Int, last: Int): DoctorPreviewCursorPage!
   findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewOffsetPage!
   findUser(args: FindUserInput!): UserDetailDto!
   hello(name: String!): String!

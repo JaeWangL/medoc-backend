@@ -1,7 +1,7 @@
 import { Args, Resolver, Mutation, Query } from '@nestjs/graphql';
-import { PaginationOffsetArgs } from '@common/dtos';
+import { PaginationCursorArgs, PaginationOffsetArgs } from '@common/dtos';
 import { toPageOffset } from '@common/extensions';
-import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewOffsetPage } from '../dtos';
+import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewCursorPage, DoctorPreviewOffsetPage } from '../dtos';
 import { toDoctorsPreviewDTO } from '../extensions';
 import { DoctorService } from '../services';
 
@@ -16,14 +16,17 @@ export class DoctorResolver {
     return newDoctor;
   }
 
-  /*
-  @Query(() => DoctorPreviewPage)
-  async findDoctorsCursor(@Args() paging: PaginationCursorArgs): Promise<DoctorPreviewPage> {
-    const doctors = await this.doctorSvc.findCursorByRatingAsync(paging.after, paging.pageSize);
+  @Query(() => DoctorPreviewCursorPage)
+  async findDoctorsCursor(@Args() paging: PaginationCursorArgs): Promise<DoctorPreviewCursorPage> {
+    const doctors = await this.doctorSvc.findCursorByRatingAsync(
+      paging.after,
+      paging.before,
+      paging.first,
+      paging.last,
+    );
 
-    return doctors[0];
+    return doctors;
   }
-  */
 
   @Query(() => DoctorPreviewOffsetPage)
   async findDoctorsOffset(@Args() paging: PaginationOffsetArgs): Promise<DoctorPreviewOffsetPage> {

@@ -2,8 +2,8 @@ import { findManyCursorConnection, Connection, Edge } from '@devoxa/prisma-relay
 import { Injectable } from '@nestjs/common';
 import { Doctors } from '@prisma/client';
 import { PrismaService } from '@shared/services';
-import { DoctorDetailDto } from '../dtos';
-import { toDoctorDetailDTO } from '../extensions';
+import { DoctorDetailDto, DoctorPreviewCursorPage } from '../dtos';
+import { toDoctorDetailDTO, toDoctorPreviewDTO } from '../extensions';
 
 @Injectable()
 export class DoctorService {
@@ -24,20 +24,36 @@ export class DoctorService {
     }
   }
 
-  async findCursorByRatingAsync(after: number, pageSize: number): Promise<[number, Doctors[]]> {
-    const totalCount = await this.prismaSvc.doctors.count();
-    const doctors = await this.prismaSvc.doctors.findMany({
-      cursor: {
-        Id: after,
+  async findCursorByRatingAsync(
+    after?: string,
+    before?: string,
+    first?: number,
+    last?: number,
+  ): Promise<Connection<Doctors, Edge<Doctors>>> {
+    const baseArgs: any = {
+      where: {
+        Name: '11',
       },
       orderBy: {
         Rating: 'asc',
       },
-      skip: 1,
-      take: pageSize,
-    });
+    };
 
-    return [totalCount, doctors];
+    const results = await findManyCursorConnection<Doctors, { id: number }>(
+      () => this.prismaSvc.doctors.findMany(baseArgs),
+      () => this.prismaSvc.doctors.count({ where: baseArgs.where }),
+      { first, last, before, after },
+      {
+        getCursor: (record) => ({ id: record.Id }),
+        encodeCursor: (cursor) => Buffer.from(JSON.stringify(cursor)).toString('base64'),
+        decodeCursor: (cursor) => JSON.parse(Buffer.from(cursor, 'base64').toString('ascii')),
+        recordToEdge: (record): DoctorPreviewCursorPage => ({
+          node: toDoctorPreviewDTO(record),
+        }),
+      },
+    );
+
+    return results;
   }
 
   async findOffsetByRatingAsync(pageIndex: number, pageSize: number): Promise<[number, Doctors[]]> {
