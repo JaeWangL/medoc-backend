@@ -2,8 +2,8 @@ import { FastifyRequest } from 'fastify';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { DecodedUser } from '../interfaces';
-import { RolesEnum } from '../decorators';
+import { RolesEnum } from '@infrastructure/decorators';
+import { DecodedUser } from '@infrastructure/interfaces';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

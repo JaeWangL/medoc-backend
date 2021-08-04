@@ -1,7 +1,13 @@
 import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
-import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from '@common/dtos';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { RolesEnum } from '@infrastructure/decorators';
+
+@InputType()
+export class FindUserInput {
+  @Field()
+  id?: number;
+}
 
 @ObjectType()
 export class UserDetailDto extends BaseModel {

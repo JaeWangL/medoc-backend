@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { GqlAccessGuard } from '@infrastructure/guards';
-import { UserDetailDto } from '../dtos';
+import { FindUserInput, UserDetailDto } from '../dtos';
 import { toUserDetailDTO } from '../extensions';
 import { UserService } from '../services';
 
@@ -11,8 +11,8 @@ export class UserResolver {
   constructor(private userSvc: UserService) {}
 
   @Query((returns: any) => UserDetailDto)
-  async findUser(@Args('id') id: number): Promise<UserDetailDto> {
-    const user = await this.userSvc.findByIdAsync(id);
+  async findUser(@Args('args') args: FindUserInput): Promise<UserDetailDto> {
+    const user = await this.userSvc.findByIdAsync(args.id!);
 
     return toUserDetailDTO(user);
   }
