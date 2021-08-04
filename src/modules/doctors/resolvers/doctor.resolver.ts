@@ -1,7 +1,7 @@
 import { Args, Resolver, Mutation, Query } from '@nestjs/graphql';
-import { PaginationCursorArgs, PaginationOffsetArgs } from '@common/dtos';
-import { toPage } from '@common/extensions';
-import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewPage } from '../dtos';
+import { PaginationOffsetArgs } from '@common/dtos';
+import { toPageOffset } from '@common/extensions';
+import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewOffsetPage } from '../dtos';
 import { toDoctorsPreviewDTO } from '../extensions';
 import { DoctorService } from '../services';
 
@@ -25,10 +25,10 @@ export class DoctorResolver {
   }
   */
 
-  @Query(() => DoctorPreviewPage)
-  async findDoctorsOffset(@Args() paging: PaginationOffsetArgs): Promise<DoctorPreviewPage> {
+  @Query(() => DoctorPreviewOffsetPage)
+  async findDoctorsOffset(@Args() paging: PaginationOffsetArgs): Promise<DoctorPreviewOffsetPage> {
     const doctors = await this.doctorSvc.findOffsetByRatingAsync(paging.pageIndex, paging.pageSize);
 
-    return toPage(paging.pageIndex, paging.pageSize, doctors[0], toDoctorsPreviewDTO(doctors[1]));
+    return toPageOffset(paging.pageIndex, paging.pageSize, doctors[0], toDoctorsPreviewDTO(doctors[1]));
   }
 }

@@ -64,11 +64,16 @@ type DoctorPreviewDto {
   userId: Int!
 }
 
-type DoctorPreviewPage {
+type DoctorPreviewOffsetPage {
   count: Int!
   data: [DoctorPreviewDto!]!
   pageIndex: Int!
   pageSize: Int!
+}
+
+input FindUserInput {
+  id: Int!
+}
 
 type Mutation {
   createDoctor(input: CreateDoctorInput!): DoctorDetailDto!
@@ -78,9 +83,11 @@ type Mutation {
 }
 
 type Query {
-  findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewPage!
-  findUser(id: Int!): UserDetailDto!
+  findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewOffsetPage!
   findUser(args: FindUserInput!): UserDetailDto!
+  hello(name: String!): String!
+  helloWorld: String!
+}
 
 input RefreshTokenInput {
   """JWT refresh token"""

@@ -1,15 +1,15 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-export interface IPage<T> {
+export interface IPageOffset<T> {
   pageIndex: number;
   pageSize: number;
   count: number;
   data: T[];
 }
 
-export function Paginated<T>(ItemType: T): any {
+export function PaginatedOffset<T>(ItemType: T): any {
   @ObjectType({ isAbstract: true })
-  abstract class PageClass implements IPage<T> {
+  abstract class PageOffsetClass implements IPageOffset<T> {
     @Field(() => Int)
     public pageIndex: number;
 
@@ -23,5 +23,5 @@ export function Paginated<T>(ItemType: T): any {
     public data: T[];
   }
 
-  return PageClass;
+  return PageOffsetClass;
 }
