@@ -44,21 +44,42 @@ type DoctorDetailDto {
   id: ID!
   name: String!
   profileUrl: String!
-  rating: Int!
+  rating: Float!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
   userId: Int!
 }
 
+type DoctorPreviewDto {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  profileUrl: String!
+  rating: Float!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type DoctorPreviewPage {
+  count: Int!
+  data: [DoctorPreviewDto!]!
+  pageIndex: Int!
+  pageSize: Int!
+}
+
 type Mutation {
-  createDoctor(data: CreateDoctorInput!): DoctorDetailDto!
+  createDoctor(input: CreateDoctorInput!): DoctorDetailDto!
   refreshToken(data: RefreshTokenInput!): AuthTokensDto!
   signIn(data: SignInInput!): AuthUserDto!
   signUp(data: SignUpInput!): Boolean!
 }
 
 type Query {
+  findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewPage!
   findUser(id: Int!): UserDetailDto!
   hello(name: String!): String!
   helloWorld: String!

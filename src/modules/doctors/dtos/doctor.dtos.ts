@@ -1,6 +1,6 @@
 import { IsNotEmpty, MaxLength } from 'class-validator';
-import { InputType, Field, ObjectType } from '@nestjs/graphql';
-import { BaseModel } from '@common/base.dtos';
+import { InputType, Field, Float, ObjectType } from '@nestjs/graphql';
+import { BaseModel, Paginated } from '@common/dtos';
 
 @InputType()
 export class CreateDoctorInput {
@@ -31,7 +31,7 @@ export class DoctorDetailDto extends BaseModel {
   @IsNotEmpty()
   profileUrl: string;
 
-  @Field()
+  @Field(() => Float)
   rating: number;
 }
 
@@ -49,6 +49,9 @@ export class DoctorPreviewDto extends BaseModel {
   @IsNotEmpty()
   profileUrl: string;
 
-  @Field()
+  @Field(() => Float)
   rating: number;
 }
+
+@ObjectType()
+export class DoctorPreviewPage extends Paginated(DoctorPreviewDto) {}

@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
 import { InputType, Field, ObjectType } from '@nestjs/graphql';
-import { BaseModel } from '@common/base.dtos';
+import { BaseModel } from '@common/dtos';
 
 @InputType()
 export class SignInInput {
