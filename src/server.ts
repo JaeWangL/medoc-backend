@@ -8,6 +8,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as Sentry from '@sentry/node';
 import { NestConfig } from '@configs/index';
 import { LoggingInterceptor } from '@infrastructure/interceptors';
@@ -47,8 +48,25 @@ async function bootstrap() {
   });
   fAdapt.register(FastifyMultipart);
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  // app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
+
+  const options = new DocumentBuilder()
+    .setTitle('API v1')
+    .setDescription('The main backend for MeDoc')
+    .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      description: `JWT Authorization header using the Bearer scheme.
+\r\n\r\nEnter 'Bearer' [space] and then your token in client application.
+\r\n\r\nExample: 'Bearer 12345abcdef'`,
+      name: 'Authorization',
+      in: 'Header',
+      scheme: 'Bearer',
+    })
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('docs', app, document);
 
   const configService = app.get(ConfigService);
   const nestConfig = configService.get<NestConfig>('nest');
