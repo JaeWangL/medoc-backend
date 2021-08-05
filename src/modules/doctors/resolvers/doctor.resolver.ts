@@ -2,13 +2,13 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PaginationCursorArgs, PaginationOffsetArgs } from '@common/dtos';
 import { toPageOffset } from '@common/extensions';
-import { GqlAccessGuard } from '@infrastructure/guards';
+import { GqlAccessGuard, GqlAdminGuard } from '@infrastructure/guards';
 import { CreateDoctorInput, DoctorCursorPage, DoctorDto, DoctorOffsetPage } from '../dtos';
 import { toDoctorDTO, toDoctorsDTO } from '../extensions';
 import { DoctorService } from '../services';
 
 @Resolver(() => 'Doctor')
-@UseGuards(GqlAccessGuard)
+@UseGuards(GqlAccessGuard, GqlAdminGuard)
 export class DoctorResolver {
   constructor(private readonly doctorSvc: DoctorService) {}
 
