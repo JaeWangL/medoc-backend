@@ -2,14 +2,14 @@ import { findManyCursorConnection, Connection, Edge } from '@devoxa/prisma-relay
 import { Injectable } from '@nestjs/common';
 import { Doctors } from '@prisma/client';
 import { PrismaService } from '@shared/services';
-import { DoctorDetailDto, DoctorPreviewDto } from '../dtos';
-import { toDoctorDetailDTO, toDoctorPreviewDTO } from '../extensions';
+import { DoctorDto } from '../dtos';
+import { toDoctorDTO } from '../extensions';
 
 @Injectable()
 export class DoctorService {
   constructor(private readonly prismaSvc: PrismaService) {}
 
-  async createAsync(userId: number, name: string, profileUrl: string): Promise<DoctorDetailDto> {
+  async createAsync(userId: number, name: string, profileUrl: string): Promise<Doctors> {
     try {
       const newDoctor = await this.prismaSvc.doctors.create({
         data: {
@@ -18,7 +18,7 @@ export class DoctorService {
           ProfileUrl: profileUrl,
         },
       });
-      return toDoctorDetailDTO(newDoctor);
+      return newDoctor;
     } catch (e) {
       throw new Error(`DoctorService.createAsync: Unknown Error`);
     }
@@ -29,7 +29,7 @@ export class DoctorService {
     before?: string,
     first?: number,
     last?: number,
-  ): Promise<Connection<DoctorPreviewDto, Edge<DoctorPreviewDto>>> {
+  ): Promise<Connection<DoctorDto, Edge<DoctorDto>>> {
     const baseArgs: any = {
       where: {
         Name: '11',
@@ -39,14 +39,14 @@ export class DoctorService {
       },
     };
 
-    const results = await findManyCursorConnection<Doctors, { id: string }, DoctorPreviewDto>(
+    const results = await findManyCursorConnection<Doctors, { id: string }, DoctorDto>(
       () => this.prismaSvc.doctors.findMany(baseArgs),
       () => this.prismaSvc.doctors.count({ where: baseArgs.where }),
       { first, last, before, after },
       {
         getCursor: (record) => ({ id: record.Id.toString() }),
         recordToEdge: (record) => ({
-          node: toDoctorPreviewDTO(record),
+          node: toDoctorDTO(record),
         }),
       },
     );

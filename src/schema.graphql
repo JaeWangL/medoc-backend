@@ -47,26 +47,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type DoctorDetailDto {
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
-  id: ID!
-  name: String!
-  profileUrl: String!
-  rating: Float!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
-  userId: Int!
-}
-
-type DoctorPreviewCursorPage {
-  edges: [DoctorPreviewDtoEdge!]
+type DoctorCursorPage {
+  edges: [DoctorDtoEdge!]
   pageInfo: PageInfo!
   totalCount: Int!
 }
 
-type DoctorPreviewDto {
+type DoctorDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   id: ID!
@@ -79,14 +66,14 @@ type DoctorPreviewDto {
   userId: Int!
 }
 
-type DoctorPreviewDtoEdge {
+type DoctorDtoEdge {
   cursor: String!
-  node: DoctorPreviewDto!
+  node: DoctorDto!
 }
 
-type DoctorPreviewOffsetPage {
+type DoctorOffsetPage {
   count: Int!
-  data: [DoctorPreviewDto!]!
+  data: [DoctorDto!]!
   pageIndex: Int!
   pageSize: Int!
 }
@@ -96,7 +83,7 @@ input FindUserInput {
 }
 
 type Mutation {
-  createDoctor(input: CreateDoctorInput!): DoctorDetailDto!
+  createDoctor(input: CreateDoctorInput!): DoctorDto!
   createReview(input: CreateReviewInput!): ReviewDto!
   refreshToken(data: RefreshTokenInput!): AuthTokensDto!
   signIn(data: SignInInput!): AuthUserDto!
@@ -111,8 +98,8 @@ type PageInfo {
 }
 
 type Query {
-  findDoctorsCursor(after: String, before: String, first: Int, last: Int): DoctorPreviewCursorPage!
-  findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewOffsetPage!
+  findDoctorsCursor(after: String, before: String, first: Int, last: Int): DoctorCursorPage!
+  findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorOffsetPage!
   findUser(args: FindUserInput!): UserDetailDto!
   getReviewsCursorByDoctorId(after: String, before: String, doctorId: Int!, first: Int, last: Int): ReviewCursorPage!
   getReviewsOffsetByDoctorId(doctorId: Int!, pageIndex: Int = 1, pageSize: Int = 10): ReviewOffsetPage!

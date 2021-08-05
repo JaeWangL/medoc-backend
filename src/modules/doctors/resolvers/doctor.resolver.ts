@@ -1,23 +1,23 @@
-import { Args, Resolver, Mutation, Query } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PaginationCursorArgs, PaginationOffsetArgs } from '@common/dtos';
 import { toPageOffset } from '@common/extensions';
-import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewCursorPage, DoctorPreviewOffsetPage } from '../dtos';
-import { toDoctorsPreviewDTO } from '../extensions';
+import { CreateDoctorInput, DoctorCursorPage, DoctorDto, DoctorOffsetPage } from '../dtos';
+import { toDoctorDTO, toDoctorsDTO } from '../extensions';
 import { DoctorService } from '../services';
 
 @Resolver(() => 'Doctor')
 export class DoctorResolver {
   constructor(private readonly doctorSvc: DoctorService) {}
 
-  @Mutation(() => DoctorDetailDto)
-  async createDoctor(@Args('input') input: CreateDoctorInput): Promise<DoctorDetailDto> {
+  @Mutation(() => DoctorDto)
+  async createDoctor(@Args('input') input: CreateDoctorInput): Promise<DoctorDto> {
     const newDoctor = await this.doctorSvc.createAsync(input.userId, input.name, input.profileUrl);
 
-    return newDoctor;
+    return toDoctorDTO(newDoctor);
   }
 
-  @Query(() => DoctorPreviewCursorPage)
-  async findDoctorsCursor(@Args() paging: PaginationCursorArgs): Promise<DoctorPreviewCursorPage> {
+  @Query(() => DoctorCursorPage)
+  async findDoctorsCursor(@Args() paging: PaginationCursorArgs): Promise<DoctorCursorPage> {
     const doctors = await this.doctorSvc.findCursorByRatingAsync(
       paging.after,
       paging.before,
@@ -28,10 +28,10 @@ export class DoctorResolver {
     return doctors;
   }
 
-  @Query(() => DoctorPreviewOffsetPage)
-  async findDoctorsOffset(@Args() paging: PaginationOffsetArgs): Promise<DoctorPreviewOffsetPage> {
+  @Query(() => DoctorOffsetPage)
+  async findDoctorsOffset(@Args() paging: PaginationOffsetArgs): Promise<DoctorOffsetPage> {
     const doctors = await this.doctorSvc.findOffsetByRatingAsync(paging.pageIndex, paging.pageSize);
 
-    return toPageOffset(paging.pageIndex, paging.pageSize, doctors[0], toDoctorsPreviewDTO(doctors[1]));
+    return toPageOffset(paging.pageIndex, paging.pageSize, doctors[0], toDoctorsDTO(doctors[1]));
   }
 }

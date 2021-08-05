@@ -1,7 +1,7 @@
 import { Doctors } from '@prisma/client';
-import { DoctorDetailDto, DoctorPreviewDto } from '../dtos';
+import { DoctorDto } from '../dtos';
 
-export const toDoctorDetailDTO = (entity: Doctors): DoctorDetailDto => ({
+export const toDoctorDTO = (entity: Doctors): DoctorDto => ({
   id: entity.Id,
   createdAt: entity.CreatedAt,
   updatedAt: entity.UpdatedAt,
@@ -11,15 +11,4 @@ export const toDoctorDetailDTO = (entity: Doctors): DoctorDetailDto => ({
   rating: entity.Rating.toNumber(),
 });
 
-export const toDoctorPreviewDTO = (entity: Doctors): DoctorPreviewDto => ({
-  id: entity.Id,
-  createdAt: entity.CreatedAt,
-  updatedAt: entity.UpdatedAt,
-  userId: entity.UserId,
-  name: entity.Name,
-  profileUrl: entity.ProfileUrl,
-  rating: entity.Rating.toNumber(),
-});
-
-export const toDoctorsPreviewDTO = (entities: Doctors[]): DoctorPreviewDto[] =>
-  entities.map((entity) => toDoctorPreviewDTO(entity));
+export const toDoctorsDTO = (entities: Doctors[]): DoctorDto[] => entities.map((entity) => toDoctorDTO(entity));

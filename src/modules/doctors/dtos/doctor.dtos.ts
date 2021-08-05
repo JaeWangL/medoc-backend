@@ -18,7 +18,7 @@ export class CreateDoctorInput {
 }
 
 @ObjectType()
-export class DoctorDetailDto extends BaseModel {
+export class DoctorDto extends BaseModel {
   @Field()
   userId: number;
 
@@ -36,25 +36,7 @@ export class DoctorDetailDto extends BaseModel {
 }
 
 @ObjectType()
-export class DoctorPreviewDto extends BaseModel {
-  @Field()
-  userId: number;
-
-  @Field()
-  @IsNotEmpty()
-  @MaxLength(50)
-  name: string;
-
-  @Field()
-  @IsNotEmpty()
-  profileUrl: string;
-
-  @Field(() => Float)
-  rating: number;
-}
+export class DoctorCursorPage extends PaginatedCursor(DoctorDto) {}
 
 @ObjectType()
-export class DoctorPreviewCursorPage extends PaginatedCursor(DoctorPreviewDto) {}
-
-@ObjectType()
-export class DoctorPreviewOffsetPage extends PaginatedOffset(DoctorPreviewDto) {}
+export class DoctorOffsetPage extends PaginatedOffset(DoctorDto) {}
