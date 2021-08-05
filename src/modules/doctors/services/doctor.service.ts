@@ -2,7 +2,7 @@ import { findManyCursorConnection, Connection, Edge } from '@devoxa/prisma-relay
 import { Injectable } from '@nestjs/common';
 import { Doctors } from '@prisma/client';
 import { PrismaService } from '@shared/services';
-import { DoctorDetailDto, DoctorPreviewCursorPage } from '../dtos';
+import { DoctorDetailDto, DoctorPreviewDto } from '../dtos';
 import { toDoctorDetailDTO, toDoctorPreviewDTO } from '../extensions';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class DoctorService {
     before?: string,
     first?: number,
     last?: number,
-  ): Promise<Connection<Doctors, Edge<Doctors>>> {
+  ): Promise<Connection<DoctorPreviewDto, Edge<DoctorPreviewDto>>> {
     const baseArgs: any = {
       where: {
         Name: '11',
@@ -39,15 +39,13 @@ export class DoctorService {
       },
     };
 
-    const results = await findManyCursorConnection<Doctors, { id: number }>(
+    const results = await findManyCursorConnection<Doctors, { id: string }, DoctorPreviewDto>(
       () => this.prismaSvc.doctors.findMany(baseArgs),
       () => this.prismaSvc.doctors.count({ where: baseArgs.where }),
       { first, last, before, after },
       {
-        getCursor: (record) => ({ id: record.Id }),
-        encodeCursor: (cursor) => Buffer.from(JSON.stringify(cursor)).toString('base64'),
-        decodeCursor: (cursor) => JSON.parse(Buffer.from(cursor, 'base64').toString('ascii')),
-        recordToEdge: (record): DoctorPreviewCursorPage => ({
+        getCursor: (record) => ({ id: record.Id.toString() }),
+        recordToEdge: (record) => ({
           node: toDoctorPreviewDTO(record),
         }),
       },
