@@ -1,7 +1,7 @@
 import { Users } from '@prisma/client';
-import { UserDetailDto } from '../dtos';
+import { UserDto } from '../dtos';
 
-export const toUserDetailDTO = (entity: Users): UserDetailDto => ({
+export const toUserDTO = (entity: Users): UserDto => ({
   id: entity.Id,
   createdAt: entity.CreatedAt,
   updatedAt: entity.UpdatedAt,

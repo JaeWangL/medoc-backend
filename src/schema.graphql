@@ -98,7 +98,7 @@ type PageInfo {
 type Query {
   findDoctorsCursor(after: String, before: String, first: Int, last: Int): DoctorCursorPage!
   findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorOffsetPage!
-  findUser(args: FindUserInput!): UserDetailDto!
+  findUser(args: FindUserInput!): UserDto!
   getReviewsCursorByDoctorId(after: String, before: String, doctorId: Int!, first: Int, last: Int): ReviewCursorPage!
   getReviewsOffsetByDoctorId(doctorId: Int!, pageIndex: Int = 1, pageSize: Int = 10): ReviewOffsetPage!
   hello(name: String!): String!
@@ -159,7 +159,7 @@ input SignUpInput {
   userName: String!
 }
 
-type UserDetailDto {
+type UserDto {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
   email: String!

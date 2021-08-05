@@ -4,12 +4,12 @@ import { BaseModel } from '@common/dtos';
 
 @InputType()
 export class SignInInput {
-  @Field()
+  @Field(() => String)
   @IsEmail()
   @MaxLength(50)
   email: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   password: string;
@@ -17,56 +17,56 @@ export class SignInInput {
 
 @InputType()
 export class SignUpInput {
-  @Field()
+  @Field(() => String)
   @IsEmail()
   @MaxLength(50)
   email: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   password: string;
 
-  @Field()
+  @Field(() => String)
   @MaxLength(50)
   userName: string;
 }
 
 @InputType()
 export class RefreshTokenInput {
-  @Field({ description: 'JWT refresh token' })
+  @Field(() => String, { description: 'JWT refresh token' })
   @IsNotEmpty()
   refreshToken: string;
 }
 
 @ObjectType()
 export class AuthUserDto extends BaseModel {
-  @Field()
+  @Field(() => String)
   @IsEmail()
   @MaxLength(50)
   email: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   userName: string;
 
-  @Field({ description: 'JWT access token' })
+  @Field(() => String, { description: 'JWT access token' })
   @IsNotEmpty()
   accessToken: string;
 
-  @Field({ description: 'JWT refresh token' })
+  @Field(() => String, { description: 'JWT refresh token' })
   @IsNotEmpty()
   refreshToken: string;
 }
 
 @ObjectType()
 export class AuthTokensDto {
-  @Field({ description: 'JWT access token' })
+  @Field(() => String, { description: 'JWT access token' })
   @IsNotEmpty()
   accessToken: string;
 
-  @Field({ description: 'JWT refresh token' })
+  @Field(() => String, { description: 'JWT refresh token' })
   @IsNotEmpty()
   refreshToken: string;
 }

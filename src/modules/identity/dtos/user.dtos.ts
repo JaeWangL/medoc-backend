@@ -10,17 +10,17 @@ export class FindUserInput {
 }
 
 @ObjectType()
-export class UserDetailDto extends BaseModel {
-  @Field()
+export class UserDto extends BaseModel {
+  @Field(() => String)
   @IsEmail()
   @MaxLength(50)
   email: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   userName: string;
 
-  @Field((type) => RolesEnum)
+  @Field(() => RolesEnum)
   role: RolesEnum;
 }
