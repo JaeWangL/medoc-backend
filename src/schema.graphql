@@ -17,7 +17,7 @@ type AuthUserDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   email: String!
-  id: ID!
+  id: Int!
 
   """JWT refresh token"""
   refreshToken: String!
@@ -56,7 +56,7 @@ type DoctorCursorPage {
 type DoctorDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
-  id: ID!
+  id: Int!
   name: String!
   profileUrl: String!
   rating: Float!
@@ -121,7 +121,7 @@ type ReviewCursorPage {
 type ReviewDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
-  id: ID!
+  id: Int!
   message: String!
   name: String!
   profileUrl: String!
@@ -165,7 +165,7 @@ type UserDetailDto {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   email: String!
-  id: ID!
+  id: Int!
   role: Roles!
 
   """Identifies the date and time when the object was last updated."""

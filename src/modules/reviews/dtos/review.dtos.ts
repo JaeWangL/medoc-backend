@@ -1,50 +1,50 @@
 import { IsNotEmpty, MaxLength } from 'class-validator';
-import { InputType, Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { BaseModel, PaginatedCursor, PaginatedOffset } from '@common/dtos';
 
 @InputType()
 export class CreateReviewInput {
-  @Field()
+  @Field(() => Int)
   doctorId: number;
 
-  @Field()
+  @Field(() => Int)
   userId: number;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   name: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   profileUrl: string;
 
-  @Field()
+  @Field(() => Int)
   rating: number;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   message: string;
 }
 
 @ObjectType()
 export class ReviewDto extends BaseModel {
-  @Field()
+  @Field(() => Int)
   userId: number;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   @MaxLength(50)
   name: string;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   profileUrl: string;
 
-  @Field()
+  @Field(() => Int)
   rating: number;
 
-  @Field()
+  @Field(() => String)
   @IsNotEmpty()
   message: string;
 }
