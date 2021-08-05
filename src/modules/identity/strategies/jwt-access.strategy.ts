@@ -2,9 +2,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { Users } from '@prisma/client';
 import { SecurityConfig } from '@configs/index';
-import { JwtStrategyValidate } from '@infrastructure/interfaces';
+import { DecodedUser, JwtStrategyValidate } from '@infrastructure/interfaces';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'accessToken') {
@@ -16,11 +15,11 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'accessToken')
     });
   }
 
-  async validate(payload: Users): Promise<JwtStrategyValidate> {
+  validate(payload: DecodedUser): JwtStrategyValidate {
     return {
-      id: payload.Id,
-      email: payload.Email,
-      role: payload.Role,
+      id: payload.id,
+      email: payload.email,
+      role: payload.role,
     };
   }
 }

@@ -25,7 +25,6 @@ import { AppService } from './services';
       useFactory: async (configService: ConfigService) => {
         const graphqlConfig = configService.get<GraphqlConfig>('graphql');
         return {
-          installSubscriptionHandlers: false,
           buildSchemaOptions: {
             numberScalarMode: 'integer',
           },
