@@ -1,11 +1,14 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PaginationCursorArgs, PaginationOffsetArgs } from '@common/dtos';
 import { toPageOffset } from '@common/extensions';
+import { GqlAccessGuard } from '@infrastructure/guards';
 import { CreateReviewInput, ReviewDto, ReviewCursorPage, ReviewOffsetPage } from '../dtos';
 import { toReviewDTO, toReviewsDTO } from '../extensions';
 import { ReviewService } from '../services';
 
 @Resolver(() => 'Review')
+@UseGuards(GqlAccessGuard)
 export class ReviewResolver {
   constructor(private readonly reviewSvc: ReviewService) {}
 
