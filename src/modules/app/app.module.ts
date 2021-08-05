@@ -10,6 +10,7 @@ import { MaxComplexityPlugin, SentryPlugin } from '@infrastructure/plugins';
 import { SharedModule } from '@shared/shared.module';
 import { DoctorModule } from '../doctors/doctor.module';
 import { IdentityModule } from '../identity/identity.module';
+import { ReviewModule } from '../reviews/review.module';
 import { AppController } from './controllers';
 import { AppResolver } from './resolvers';
 import { AppService } from './services';
@@ -41,6 +42,7 @@ import { AppService } from './services';
     SharedModule,
     IdentityModule,
     DoctorModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver, MaxComplexityPlugin, SentryPlugin /* , DateScalar */],

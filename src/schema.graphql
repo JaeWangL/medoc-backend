@@ -33,6 +33,15 @@ input CreateDoctorInput {
   userId: Int!
 }
 
+input CreateReviewInput {
+  doctorId: Int!
+  message: String!
+  name: String!
+  profileUrl: String!
+  rating: Int!
+  userId: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -88,6 +97,7 @@ input FindUserInput {
 
 type Mutation {
   createDoctor(input: CreateDoctorInput!): DoctorDetailDto!
+  createReview(input: CreateReviewInput!): ReviewDto!
   refreshToken(data: RefreshTokenInput!): AuthTokensDto!
   signIn(data: SignInInput!): AuthUserDto!
   signUp(data: SignUpInput!): Boolean!
@@ -104,6 +114,8 @@ type Query {
   findDoctorsCursor(after: String, before: String, first: Int, last: Int): DoctorPreviewCursorPage!
   findDoctorsOffset(pageIndex: Int = 1, pageSize: Int = 10): DoctorPreviewOffsetPage!
   findUser(args: FindUserInput!): UserDetailDto!
+  getReviewsCursorByDoctorId(after: String, before: String, doctorId: Int!, first: Int, last: Int): ReviewCursorPage!
+  getReviewsOffsetByDoctorId(doctorId: Int!, pageIndex: Int = 1, pageSize: Int = 10): ReviewOffsetPage!
   hello(name: String!): String!
   helloWorld: String!
 }
@@ -111,6 +123,38 @@ type Query {
 input RefreshTokenInput {
   """JWT refresh token"""
   refreshToken: String!
+}
+
+type ReviewCursorPage {
+  edges: [ReviewDtoEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ReviewDto {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  message: String!
+  name: String!
+  profileUrl: String!
+  rating: Int!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type ReviewDtoEdge {
+  cursor: String!
+  node: ReviewDto!
+}
+
+type ReviewOffsetPage {
+  count: Int!
+  data: [ReviewDto!]!
+  pageIndex: Int!
+  pageSize: Int!
 }
 
 enum Roles {

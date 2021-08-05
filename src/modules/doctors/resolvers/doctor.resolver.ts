@@ -5,11 +5,11 @@ import { CreateDoctorInput, DoctorDetailDto, DoctorPreviewCursorPage, DoctorPrev
 import { toDoctorsPreviewDTO } from '../extensions';
 import { DoctorService } from '../services';
 
-@Resolver((of: any) => 'Doctor')
+@Resolver(() => 'Doctor')
 export class DoctorResolver {
   constructor(private readonly doctorSvc: DoctorService) {}
 
-  @Mutation((returns) => DoctorDetailDto)
+  @Mutation(() => DoctorDetailDto)
   async createDoctor(@Args('input') input: CreateDoctorInput): Promise<DoctorDetailDto> {
     const newDoctor = await this.doctorSvc.createAsync(input.userId, input.name, input.profileUrl);
 
