@@ -1,3 +1,5 @@
+import DayJS from 'dayjs';
+import PluginUTC from 'dayjs/plugin/utc';
 import FastifyCompress from 'fastify-compress';
 import FastifyHelmet from 'fastify-helmet';
 import FastifyMultipart from 'fastify-multipart';
@@ -11,6 +13,7 @@ import { NestConfig } from '@configs/index';
 import { LoggingInterceptor } from '@infrastructure/interceptors';
 import { AppModule } from '@modules/app/app.module';
 
+DayJS.extend(PluginUTC);
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 1.0,

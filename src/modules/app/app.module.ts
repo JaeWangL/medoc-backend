@@ -45,6 +45,6 @@ import { AppService } from './services';
     ReviewModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver, MaxComplexityPlugin, SentryPlugin /* DateScalar */],
+  providers: [AppService, AppResolver, MaxComplexityPlugin, SentryPlugin, DateScalar],
 })
 export class AppModule {}
