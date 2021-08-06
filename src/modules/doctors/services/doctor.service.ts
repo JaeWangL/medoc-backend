@@ -39,12 +39,14 @@ export class DoctorService {
       },
     };
 
-    const results = await findManyCursorConnection<Doctors, { id: string }, DoctorDto>(
-      () => this.prismaSvc.doctors.findMany(baseArgs),
+    const results = await findManyCursorConnection<Doctors, { Id: number }, DoctorDto>(
+      (args) => this.prismaSvc.doctors.findMany({ ...args, ...baseArgs }),
       () => this.prismaSvc.doctors.count({ where: baseArgs.where }),
       { first, last, before, after },
       {
-        getCursor: (record) => ({ id: record.Id.toString() }),
+        getCursor: (record) => ({ Id: record.Id }),
+        encodeCursor: (cursor) => Buffer.from(JSON.stringify(cursor)).toString('base64'),
+        decodeCursor: (cursor) => JSON.parse(Buffer.from(cursor, 'base64').toString('ascii')),
         recordToEdge: (record) => ({
           node: toDoctorDTO(record),
         }),
