@@ -48,7 +48,7 @@ async function bootstrap() {
   });
   fAdapt.register(FastifyMultipart);
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
-  // app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
 
   const options = new DocumentBuilder()
