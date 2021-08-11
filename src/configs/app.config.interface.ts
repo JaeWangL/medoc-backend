@@ -24,9 +24,14 @@ export interface AzureConfig {
   blobTestContainer?: string;
 }
 
+export interface SentryConfig {
+  dsn?: string;
+}
+
 export interface AppConfig {
   nest: NestConfig;
   graphql: GraphqlConfig;
   security: SecurityConfig;
   azure: AzureConfig;
+  sentry: SentryConfig;
 }

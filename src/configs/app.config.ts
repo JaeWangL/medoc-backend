@@ -27,6 +27,9 @@ const config: AppConfig = {
     blobBaseUrl: process.env.BLOB_BASE_URL,
     blobTestContainer: process.env.BLOB_TEST_CONTAINER,
   },
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
+  },
 };
 
 export default (): AppConfig => config;
