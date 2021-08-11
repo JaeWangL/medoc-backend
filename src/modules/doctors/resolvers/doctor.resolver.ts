@@ -8,7 +8,7 @@ import { toDoctorDTO, toDoctorsDTO } from '../extensions';
 import { DoctorService } from '../services';
 
 @Resolver(() => 'Doctor')
-@UseGuards(GqlAccessGuard, GqlAdminGuard)
+@UseGuards(GqlAccessGuard)
 export class DoctorResolver {
   constructor(private readonly doctorSvc: DoctorService) {}
 
