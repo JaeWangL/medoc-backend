@@ -1,8 +1,9 @@
 import { HttpModule } from '@nestjs/axios';
 import { Global, Module } from '@nestjs/common';
+import { BlobService } from './azure/blob.service';
 import { PrismaService } from './prisma/prisma.service';
 
-const services = [PrismaService];
+const services = [BlobService, PrismaService];
 
 @Global()
 @Module({

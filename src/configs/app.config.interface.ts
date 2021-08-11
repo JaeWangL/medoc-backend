@@ -18,8 +18,15 @@ export interface SecurityConfig {
   bcryptSaltOrRound: string | number;
 }
 
+export interface AzureConfig {
+  blobConnectionString?: string;
+  blobBaseUrl?: string;
+  blobTestContainer?: string;
+}
+
 export interface AppConfig {
   nest: NestConfig;
   graphql: GraphqlConfig;
   security: SecurityConfig;
+  azure: AzureConfig;
 }

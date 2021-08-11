@@ -22,6 +22,11 @@ const config: AppConfig = {
     refreshTokenExpiry: process.env.REFRESH_TOKEN_EXPIRATION_TIME ?? '7d',
     bcryptSaltOrRound: 10,
   },
+  azure: {
+    blobConnectionString: process.env.BLOB_CONNECTION_STRING,
+    blobBaseUrl: process.env.BLOB_BASE_URL,
+    blobTestContainer: process.env.BLOB_TEST_CONTAINER,
+  },
 };
 
 export default (): AppConfig => config;
