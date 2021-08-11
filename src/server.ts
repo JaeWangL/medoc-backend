@@ -46,7 +46,11 @@ async function bootstrap() {
       },
     },
   });
-  fAdapt.register(FastifyMultipart);
+  fAdapt.register(FastifyMultipart, {
+    limits: {
+      fileSize: 10485760, // 10MB
+    },
+  });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
