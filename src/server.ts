@@ -73,10 +73,10 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   const configService = app.get(ConfigService);
-  const nestConfig = configService.get<NestConfig>('nest');
+  const nestConfig = configService.get<NestConfig>('app.nest');
 
   await app.listen(
-    process.env.PORT || nestConfig?.port || 8080,
+    process.env.PORT || nestConfig!.port || 8080,
     process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1',
   );
 }
