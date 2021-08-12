@@ -15,7 +15,7 @@ const AllServices = [AuthService, TokenService, UserService];
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<SecurityConfig>('security')!.jwtSecret,
+        secret: configService.get<SecurityConfig>('app.security')!.jwtSecret,
       }),
       inject: [ConfigService],
     }),

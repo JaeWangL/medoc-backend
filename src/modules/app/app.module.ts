@@ -27,7 +27,7 @@ import { AppService } from './services';
     }),
     GraphQLModule.forRootAsync({
       useFactory: async (configService: ConfigService) => {
-        const graphqlConfig = configService.get<GraphqlConfig>('graphql');
+        const graphqlConfig = configService.get<GraphqlConfig>('app.graphql');
         return {
           buildSchemaOptions: {
             numberScalarMode: 'integer',
@@ -43,9 +43,8 @@ import { AppService } from './services';
       inject: [ConfigService],
     }),
     SentryModule.forRootAsync({
-      imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        const sentryConfig = configService.get<SentryConfig>('sentry');
+        const sentryConfig = configService.get<SentryConfig>('app.sentry');
         return {
           dsn: sentryConfig!.dsn,
           debug: true,
